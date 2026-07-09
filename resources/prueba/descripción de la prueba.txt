@@ -1,0 +1,260 @@
+# Descripción prueba técnica facturify
+
+## Introducción
+
+Para la prueba técnica decidí tomar la opción de  Back‑End: enfocarte exclusivamente en la creación de APIs RESTful con Laravel, con el objetivo de demostrar la construcción de una API REST, usando herramientas y buenas prácticas del framework, manteniendo código limpio, escalable y fácil de mantener.
+
+El sistema consiste en un módulo de mensajería tipo Inbox, similar al que utilizan plataformas de soporte, sistemas de tickets o aplicaciones de correo interno. La API permitirá autenticar usuarios, consultar conversaciones, visualizar los mensajes pertenecientes a un hilo y responder conversaciones existentes.
+
+
+---
+
+# Objetivos del proyecto
+
+Construir una API REST que permita administrar conversaciones y mensajes entre usuarios autenticados.
+
+Durante el desarrollo priorizare la organización del código, reutilizar componentes y el facil mantenimiento.
+
+---
+
+# Alcance
+
+La API permitirá:
+
+* Autenticación de usuarios mediante JWT.
+* Obtener la información del usuario autenticado.
+* Consultar conversaciones (paginada, filtros, búsqueda).
+* Consultar el detalle completo de un hilo.
+* Crear nuevas conversaciones junto con su primer mensaje.
+* Responder conversaciones existentes.
+* Consultar mensajes no leidos.
+
+---
+
+# Tecnologías
+
+El proyecto será desarrollado utilizando herramientas actuales del ecosistema Laravel.
+
+Entre ellas se encuentran:
+
+* Laravel como framework principal versión 13.
+* PHP 8.3.
+* MySQL como motor de base de datos.
+* JWT para la autenticación.
+* Eloquent ORM para el acceso a datos.
+* PHPUnit o Pest para las pruebas automatizadas.
+* Git para el control de versiones.
+* Swagger para la documentación.
+
+---
+
+# Arquitectura del proyecto
+
+La aplicación seguirá la arquitectura MVC propia de Laravel.
+
+Ademas, realizare una separación clara entre cada responsabilidad para evitar controladores grandes o reglas repetidas.
+
+La organización del proyecto estará basada en:
+
+* Rutas para los endpoints.
+* Controladores encargados de recibir las solicitudes.
+* Modelos para consultar las entidades del sistema.
+* Form Requests para todas las validaciones.
+* API Resources para mantener un mismo formato en las respuestas.
+* Middleware para proteger los endpoints.
+* Migraciones para la base de datos.
+* Seeders y Factories para realizar pruebas.
+* Pruebas automatizadas para validar el comportamiento de la API.
+
+---
+
+# Módulos del sistema
+
+## Autenticación
+
+El acceso a la API estará protegido mediante JWT.
+
+El usuario iniciará sesión con su correo electrónico y contraseña y recibirá un Bearer Token que deberá enviar en todas las solicitudes.
+
+Se podrá consultar la información del usuario autenticado
+
+---
+
+## Conversaciones
+
+Las conversaciones representan un hilo de mensajes.
+
+Cada conversación tendrá un asunto, el usuario creador y una serie de mensajes relacionados.
+
+Se consultara el listado de conversaciones aplicando paginación, filtros y búsqueda.
+
+Se podrá obtener el detalle completo de un hilo en especifico
+
+---
+
+## Mensajes
+
+Se crearan multiples mensajes por cada conversación.
+
+Al crear una conversación se registrará automáticamente el primer mensaje del hilo.
+
+Será podra responder a una conversación existente agregando nuevos mensajes.
+
+---
+
+## Notificaciones
+
+Se implementará un endpoint que permita consultar mensajes no leídos.
+
+---
+
+# Modelo de datos
+
+La base de datos estará compuesta por las entidades necesarias para representar usuarios, conversaciones y mensajes.
+
+Se utilizara la tabla de usuarios de laravel para la autenticación.
+
+Se crearán las tablas correspondientes a los hilos de conversación y los mensajes.
+
+Cada conversación pertenecerá a un usuario creador y podrá contener múltiples mensajes.
+
+Cada mensaje pertenecerá tanto a un usuario como a una conversación.
+
+Diagrama Entidad Relación
+
+                    +----------------------+
+                    |        users         |
+                    +----------------------+
+                    | PK id                |
+                    | name                 |
+                    | email                |
+                    | password             |
+                    | timestamps           |
+                    +----------+-----------+
+                               |
+                               | 1
+                               |
+                               | crea
+                               |
+                               | N
+                    +----------v-----------+
+                    |       threads        |
+                    +----------------------+
+                    | PK id                |
+                    | subject              |
+                    | FK created_by        |
+                    | status               |
+                    | last_message_at      |
+                    | timestamps           |
+                    +----------+-----------+
+                               |
+                               | 1
+                               |
+                               | contiene
+                               |
+                               | N
+                    +----------v-----------+
+                    |      messages        |
+                    +----------------------+
+                    | PK id                |
+                    | FK thread_id         |
+                    | FK user_id           |
+                    | body                 |
+                    | is_read              |
+                    | read_at              |
+                    | timestamps           |
+                    +----------+-----------+
+                               ^
+                               |
+                               | N
+                               |
+                               | escribe
+                               |
+                               | 1
+                    +----------+-----------+
+                    |        users         |
+                    +----------------------+
+
+---
+
+# Validaciones
+
+Todas las entradas recibidas por la API serán validadas utilizando Form Requests.
+
+Manteniendo los controladores más limpios y reutilizando reglas de validación cuando sea necesario.
+
+Entre las validaciones se contemplan:
+
+* Credenciales obligatorias durante el inicio de sesión.
+* Asunto obligatorio para crear conversaciones.
+* Contenido obligatorio para los mensajes.
+
+---
+
+# Formato de respuestas
+
+Todas las respuestas de la API llevaran el mismo formato de respuesta.
+
+Todas las respuestas incluirán información sobre el resultado de la operación, un mensaje descriptivo y los datos correspondientes.
+
+Si hay algún error se devolverán los mensajes de validación o la descripción del error utilizando los códigos HTTP que correspondan.
+
+---
+
+# Manejo de errores
+
+La API utilizará los códigos de estado HTTP adecuados para cada situación.
+
+Entre ellos:
+
+* 200 para consultas exitosas.
+* 201 para creación de recursos.
+* 401 cuando el usuario no esté autenticado.
+* 403 cuando no tenga permisos suficientes.
+* 404 cuando el recurso solicitado no exista.
+* 422 para errores de validación.
+* 500 para errores internos inesperados.
+
+---
+
+# Pruebas
+
+Se desarrollarán pruebas automatizadas para garantizar el correcto funcionamiento de la prueba.
+
+Se validarán:
+
+* Inicio de sesión.
+* Consulta de conversaciones.
+* Consulta del detalle de un hilo.
+* Creación de conversaciones.
+* Respuesta a conversaciones.
+
+---
+
+# Datos de prueba
+
+Se crearan Factories y Seeders que generen datos de ejemplo que simulen datos reales.
+
+Esto permitirá contar con usuarios, conversaciones y mensajes suficientes para probar la aplicación.
+
+---
+
+# Documentación
+
+Al finalizar el desarrollo se incluirá un README con toda la información necesaria para ejecutar el proyecto.
+
+La documentación incluirá:
+
+* Requisitos.
+* Instalación.
+* Variables de entorno.
+* Migraciones.
+* Seeders.
+* Ejecución de pruebas.
+* Descripción de la arquitectura.
+* Explicación de las decisiones técnicas.
+* Descripción de cada endpoint.
+* Ejemplos de solicitudes y respuestas.
+
+---
+
