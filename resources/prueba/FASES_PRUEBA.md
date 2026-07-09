@@ -190,7 +190,7 @@ Todas las respuestas deben seguir un **formato uniforme**:
 
 En errores, incluir mensajes de validación o descripción del error con el código HTTP correspondiente.
 
-> La estandarización completa se implementa en la **Fase 7**. En fases tempranas, mantener consistencia desde el inicio.
+> La estandarización completa se implementa en la **Fase 6**. En fases tempranas, mantener consistencia desde el inicio.
 
 ---
 
@@ -222,7 +222,7 @@ Usar **Factories y Seeders** para generar datos de ejemplo realistas.
 
 ---
 
-## Documentación final (Fase 9)
+## Documentación final (Fase 7)
 
 Al terminar el desarrollo, incluir:
 
@@ -241,91 +241,81 @@ Al terminar el desarrollo, incluir:
 
 El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable antes de pasar a la siguiente.
 
+> **Nota:** La autenticación JWT (login + `/me`) se implementó en la Fase 2. Las pruebas se escriben **en cada fase**, no en una fase aparte.
+
 | Fase | Nombre | Estado | Commit sugerido |
 |---|---|---|---|
 | 1 | Inicio del proyecto y requerimientos | ✅ Completada | — |
-| 2 | Configuración inicial del proyecto | ✅ Completada | `feat: configure authentication with JWT` |
+| 2 | Configuración inicial + autenticación JWT | ✅ Completada | `feat: configure authentication with JWT` |
 | 3 | Diseño de la base de datos | ✅ Completada | `feat: create database structure` |
-| 4 | API de autenticación | 🔵 **Siguiente** | `feat: implement authentication endpoints` |
-| 5 | API de conversaciones | ⏳ Pendiente | `feat: implement thread endpoints` |
-| 6 | API de mensajes | ⏳ Pendiente | `feat: implement messaging endpoints` |
-| 7 | Manejo de errores | ⏳ Pendiente | `refactor: standardize api responses` |
-| 8 | Pruebas | ⏳ Pendiente | `test: add feature tests` |
-| 9 | Documentación | ⏳ Pendiente | `docs: complete project documentation` |
+| 4 | API de conversaciones | ✅ Completada | `feat: implement thread endpoints` |
+| 5 | API de mensajes | 🔵 **Siguiente** | `feat: implement messaging endpoints` |
+| 6 | Manejo de errores | ⏳ Pendiente | `refactor: standardize api responses` |
+| 7 | Documentación | ⏳ Pendiente | `docs: complete project documentation` |
 
 ---
 
-## Fase 2 — Configuración inicial ✅
+## Fase 2 — Configuración inicial + autenticación JWT ✅
 
-> **Objetivo:** dejar la base del proyecto lista para desarrollar la API. Al finalizar se debe poder **iniciar sesión mediante la API**.
+> **Objetivo:** base del proyecto + login API con JWT.
 
-### Tareas de esta fase
+### Tareas completadas
 
 - [x] Configurar base de datos (MySQL)
 - [x] Instalar y configurar JWT
-- [x] Configurar autenticación API (guard `api` con driver JWT)
-- [x] Configurar CORS para consumo desde clientes externos
-- [x] Definir variables de entorno necesarias
-- [x] Organizar estructura inicial de carpetas para la API
+- [x] Guard `api` + modelo `User` como `JWTSubject`
+- [x] CORS, variables de entorno, estructura de carpetas
+- [x] Endpoints `POST /api/auth/login` y `GET /api/auth/me`
+- [x] Form Request, API Resource y tests de autenticación
 
-### Entregables esperados
+---
 
-1. Proyecto Laravel funcional con conexión a MySQL
-2. Paquete JWT instalado y configurado (`JWT_SECRET` en `.env`)
-3. Guard de autenticación `api` operativo
-4. CORS habilitado para rutas API
-5. Estructura de carpetas preparada (ver `DEVELOPMENT_RULES.md`)
-6. Capacidad de autenticarse vía API (login básico funcional o infraestructura lista para Fase 4)
+## Fase 3 — Diseño de la base de datos ✅
 
-### Fuera de alcance en Fase 2
+Solo modelo de datos: migraciones, modelos, relaciones Eloquent, factories y seeders. **Sin controladores de negocio.**
 
-- Migraciones de `threads` y `messages` → Fase 3
-- Endpoints completos de autenticación con validaciones y tests → Fase 4
-- Módulos de conversaciones y mensajes → Fases 5 y 6
-- Estandarización de respuestas → Fase 7
-- Suite de pruebas → Fase 8
-- Swagger y documentación final → Fase 9
+### Tareas completadas
+
+- [x] Migración `threads` / `messages`
+- [x] Enum `ThreadStatus`
+- [x] Modelos y relaciones Eloquent
+- [x] Factories, seeders y tests de estructura
+
+---
+
+## Fase 4 — API de conversaciones ✅
+
+> **Objetivo:** listar conversaciones (paginación, búsqueda, filtros) y obtener el detalle de un hilo. **Sin crear ni responder mensajes.**
+
+### Tareas completadas
+
+- [x] `GET /api/threads` — listado paginado
+- [x] Búsqueda por asunto (`search`)
+- [x] Filtro por estado (`status`)
+- [x] `GET /api/threads/{thread}` — detalle con mensajes
+- [x] Protección con `auth:api`
+- [x] API Resources y tests
+
+### Fuera de alcance en Fase 4
+
+- Crear conversación / responder mensajes → Fase 5
+- Mensajes no leídos → Fase 5
+- Estandarización global de errores → Fase 6
+- Swagger / docs finales → Fase 7
 
 ---
 
 ## Fases futuras (referencia)
 
-### Fase 3 — Diseño de la base de datos ✅
+### Fase 5 — API de mensajes
 
-Solo modelo de datos: migraciones, modelos, relaciones Eloquent, factories y seeders. **Sin controladores.**
+Crear conversación (con primer mensaje), responder conversación y mensajes no leídos. Transacciones y validaciones.
 
-#### Tareas completadas
-
-- [x] Migración `threads` (subject, created_by, status, last_message_at)
-- [x] Migración `messages` (thread_id, user_id, body, is_read, read_at)
-- [x] Enum `ThreadStatus` (open, closed, pending)
-- [x] Modelos `Thread` y `Message` con relaciones Eloquent
-- [x] Relaciones en `User` (`threads`, `messages`)
-- [x] Factories con estados (`open`, `closed`, `unread`, `withMessages`, etc.)
-- [x] `ThreadSeeder` + actualización de `DatabaseSeeder`
-- [x] Tests de estructura de datos
-
-### Fase 4 — API de autenticación
-
-Login, usuario autenticado, middleware, validaciones y pruebas.
-
-### Fase 5 — API de conversaciones
-
-Listado (paginación, búsqueda, filtros) y detalle de hilo. Sin responder mensajes aún.
-
-### Fase 6 — API de mensajes
-
-Crear conversación (con primer mensaje) y responder conversación. Transacciones y validaciones.
-
-### Fase 7 — Manejo de errores
+### Fase 6 — Manejo de errores
 
 Estandarizar respuestas, excepciones, HTTP status, mensajes y API Resources.
 
-### Fase 8 — Pruebas
-
-Feature tests: validaciones, autenticación, permisos y casos de error.
-
-### Fase 9 — Documentación
+### Fase 7 — Documentación
 
 README final, Swagger, Postman, arquitectura y decisiones técnicas.
 
@@ -333,28 +323,25 @@ README final, Swagger, Postman, arquitectura y decisiones técnicas.
 
 ## Endpoints previstos (referencia completa)
 
-> No implementar todos en Fase 2. Esta tabla es la visión final del proyecto.
-
 | Método | Ruta | Descripción | Fase |
 |---|---|---|---|
-| `POST` | `/api/auth/login` | Iniciar sesión, obtener JWT | 4 |
-| `GET` | `/api/auth/me` | Usuario autenticado | 4 |
-| `GET` | `/api/threads` | Listar conversaciones | 5 |
-| `GET` | `/api/threads/{id}` | Detalle de hilo | 5 |
-| `POST` | `/api/threads` | Crear conversación + primer mensaje | 6 |
-| `POST` | `/api/threads/{id}/messages` | Responder conversación | 6 |
-| `GET` | `/api/notifications/unread` | Mensajes no leídos | 6 |
+| `POST` | `/api/auth/login` | Iniciar sesión, obtener JWT | 2 ✅ |
+| `GET` | `/api/auth/me` | Usuario autenticado | 2 ✅ |
+| `GET` | `/api/threads` | Listar conversaciones | 4 ✅ |
+| `GET` | `/api/threads/{id}` | Detalle de hilo | 4 ✅ |
+| `POST` | `/api/threads` | Crear conversación + primer mensaje | 5 |
+| `POST` | `/api/threads/{id}/messages` | Responder conversación | 5 |
+| `GET` | `/api/notifications/unread` | Mensajes no leídos | 5 |
 
 ---
 
-## Criterios de aceptación por fase
+## Criterios de aceptación
 
-### Fase 2 ✅ cuando:
+### Fase 4 ✅ cuando:
 
-1. `php artisan migrate` ejecuta sin errores (tablas base de Laravel + users)
-2. JWT está instalado y `php artisan jwt:secret` configurado
-3. Existe guard `api` con driver JWT en `config/auth.php`
-4. CORS permite solicitudes a rutas `/api/*`
-5. Variables de entorno documentadas en `.env.example`
-6. Estructura de carpetas API creada
-7. Es posible obtener un token JWT mediante login API (endpoint básico o infraestructura verificada)
+1. `GET /api/threads` requiere JWT y retorna listado paginado
+2. Soporta `?search=` y `?status=`
+3. `GET /api/threads/{id}` retorna hilo con creador y mensajes
+4. Sin token → `401`
+5. Hilo inexistente → `404`
+6. Tests de la fase pasan

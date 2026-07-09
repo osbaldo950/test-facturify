@@ -28,48 +28,34 @@
 
 ---
 
-## Fase actual: 4 — API de autenticación
+## Fase actual: 5 — API de mensajes
 
-> La Fase 3 está completada. Ver detalle en [`FASES_PRUEBA.md`](./FASES_PRUEBA.md).
+> Fases 1–4 completadas. Auth JWT en Fase 2. Pruebas por fase.
 
-### Fase 3 completada — resumen
-
-```
-[x] Migraciones threads y messages
-[x] Enum ThreadStatus
-[x] Modelos Thread y Message con relaciones
-[x] Relaciones User → threads / messages
-[x] Factories (ThreadFactory, MessageFactory)
-[x] ThreadSeeder + DatabaseSeeder
-[x] Tests de estructura de datos
-```
-
-### Commit de la Fase 3
+### Fase 4 completada — resumen
 
 ```
-feat: create database structure
+[x] GET /api/threads (paginado)
+[x] Búsqueda (?search=) y filtro (?status=)
+[x] GET /api/threads/{thread} con mensajes
+[x] auth:api en rutas de threads
+[x] ThreadResource / MessageResource
+[x] Tests de listado y detalle
 ```
 
-### Fase 2 completada — resumen
+### Commit de la Fase 4
 
 ```
-[x] Base de datos MySQL configurada y conectada
-[x] Paquete JWT instalado y publicado
-[x] JWT_SECRET generado en .env
-[x] Guard 'api' configurado con driver JWT
-[x] Modelo User implementa JWTSubject
-[x] CORS configurado para rutas /api/*
-[x] Variables de entorno documentadas en .env.example
-[x] Estructura de carpetas API creada
-[x] Rutas API registradas en routes/api.php
-[x] Login API funcional (token JWT retornado)
+feat: implement thread endpoints
 ```
 
-### Commit de la Fase 2
+### Commits previos
 
-```
-feat: configure authentication with JWT
-```
+| Fase | Commit |
+|---|---|
+| 2 | `feat: configure authentication with JWT` |
+| 3 | `feat: create database structure` |
+| 4 | `feat: implement thread endpoints` |
 
 ---
 
@@ -176,29 +162,30 @@ app/
 ├── Http/
 │   ├── Controllers/
 │   │   └── Api/
-│   │       ├── AuthController.php      # Fase 4
-│   │       ├── ThreadController.php    # Fase 5
-│   │       ├── MessageController.php   # Fase 6
-│   │       └── NotificationController.php
+│   │       ├── AuthController.php      # Fase 2 ✅
+│   │       ├── ThreadController.php    # Fase 4
+│   │       ├── MessageController.php   # Fase 5
+│   │       └── NotificationController.php  # Fase 5
 │   ├── Requests/
 │   │   └── Api/
 │   │       ├── Auth/
-│   │       │   └── LoginRequest.php    # Fase 4
+│   │       │   └── LoginRequest.php    # Fase 2 ✅
 │   │       ├── Thread/
-│   │       │   └── StoreThreadRequest.php  # Fase 6
+│   │       │   ├── IndexThreadRequest.php  # Fase 4
+│   │       │   └── StoreThreadRequest.php  # Fase 5
 │   │       └── Message/
-│   │           └── StoreMessageRequest.php # Fase 6
+│   │           └── StoreMessageRequest.php # Fase 5
 │   ├── Resources/
 │   │   └── Api/
-│   │       ├── UserResource.php
-│   │       ├── ThreadResource.php
-│   │       └── MessageResource.php
+│   │       ├── UserResource.php        # Fase 2 ✅
+│   │       ├── ThreadResource.php      # Fase 4
+│   │       └── MessageResource.php     # Fase 4
 │   └── Middleware/
 │       └── (usar auth:api de Laravel)
 ├── Models/
 │   ├── User.php
-│   ├── Thread.php      # Fase 3
-│   └── Message.php     # Fase 3
+│   ├── Thread.php      # Fase 3 ✅
+│   └── Message.php     # Fase 3 ✅
 routes/
 └── api.php             # Todas las rutas API aquí
 ```
@@ -284,7 +271,7 @@ Route::prefix('auth')->group(function () {
 
 ## Formato de respuestas API
 
-Estandarizar desde el inicio. Implementación completa en Fase 7; usar este contrato desde Fase 2:
+Estandarizar desde el inicio. Implementación completa en Fase 6; usar este contrato desde Fase 2:
 
 ### Respuesta exitosa
 
@@ -306,7 +293,7 @@ Estandarizar desde el inicio. Implementación completa en Fase 7; usar este cont
 }
 ```
 
-### Helper recomendado (crear en Fase 2 o 7)
+### Helper recomendado (crear en Fase 2 o 6)
 
 ```php
 // app/Traits/ApiResponse.php o app/Http/Responses/ApiResponse.php
@@ -355,7 +342,7 @@ No exponer stack traces en producción. Usar `APP_DEBUG=false` en producción.
 ## Pruebas
 
 - Framework: **Pest** con `pestphp/pest-plugin-laravel`.
-- Crear tests en Fase 4+ (login en Fase 4; suite completa en Fase 8).
+- Crear tests **en cada fase** junto con la funcionalidad.
 - Usar `RefreshDatabase` en feature tests.
 - Usar factories, no datos hardcodeados.
 - Ejecutar: `php artisan test --compact --filter=NombreTest`.
@@ -382,12 +369,10 @@ it('returns 401 when token is missing', function () {
 |---|---|
 | 2 | `feat: configure authentication with JWT` |
 | 3 | `feat: create database structure` |
-| 4 | `feat: implement authentication endpoints` |
-| 5 | `feat: implement thread endpoints` |
-| 6 | `feat: implement messaging endpoints` |
-| 7 | `refactor: standardize api responses` |
-| 8 | `test: add feature tests` |
-| 9 | `docs: complete project documentation` |
+| 4 | `feat: implement thread endpoints` |
+| 5 | `feat: implement messaging endpoints` |
+| 6 | `refactor: standardize api responses` |
+| 7 | `docs: complete project documentation` |
 
 ### Reglas de commit
 
@@ -399,19 +384,16 @@ it('returns 401 when token is missing', function () {
 
 ## Restricciones por fase
 
-### Fase 2 — Solo configuración
-
-| Permitido | Prohibido |
-|---|---|
-| Configurar DB, JWT, CORS, .env | Migraciones de threads/messages |
-| Estructura de carpetas | Endpoints de conversaciones/mensajes |
-| Login básico / infraestructura auth | Tests de funcionalidad de negocio |
-| User con JWTSubject | API Resources de Thread/Message |
-| routes/api.php con auth | Seeders de datos de negocio |
-
 ### Regla general
 
 > Si una tarea pertenece a una fase posterior, **no implementarla**. Documentar como pendiente y continuar con el alcance actual.
+
+| Fase actual | Permitido | Prohibido (siguiente fase) |
+|---|---|---|
+| 4 (hecha) | Listar/detalle threads | Crear/responder mensajes |
+| 5 | Crear thread, responder, unread | Refactor global de errores |
+| 6 | Estandarizar respuestas/errores | Docs finales Swagger |
+| 7 | Documentación | — |
 
 ---
 
