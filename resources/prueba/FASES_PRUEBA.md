@@ -249,8 +249,8 @@ El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable 
 | 2 | Configuración inicial + autenticación JWT | ✅ Completada | `feat: configure authentication with JWT` |
 | 3 | Diseño de la base de datos | ✅ Completada | `feat: create database structure` |
 | 4 | API de conversaciones | ✅ Completada | `feat: implement thread endpoints` |
-| 5 | API de mensajes | 🔵 **Siguiente** | `feat: implement messaging endpoints` |
-| 6 | Manejo de errores | ⏳ Pendiente | `refactor: standardize api responses` |
+| 5 | API de mensajes | ✅ Completada | `feat: implement messaging endpoints` |
+| 6 | Manejo de errores | 🔵 **Siguiente** | `refactor: standardize api responses` |
 | 7 | Documentación | ⏳ Pendiente | `docs: complete project documentation` |
 
 ---
@@ -305,11 +305,27 @@ Solo modelo de datos: migraciones, modelos, relaciones Eloquent, factories y see
 
 ---
 
+## Fase 5 — API de mensajes ✅
+
+> **Objetivo:** crear conversación (con primer mensaje), responder hilos y consultar no leídos. Con transacciones y validaciones.
+
+### Tareas completadas
+
+- [x] `POST /api/threads` — crear conversación + primer mensaje (transacción)
+- [x] `POST /api/threads/{thread}/messages` — responder conversación
+- [x] `GET /api/notifications/unread` — mensajes no leídos
+- [x] Form Requests (`StoreThreadRequest`, `StoreMessageRequest`)
+- [x] Actions (`CreateThreadAction`, `ReplyToThreadAction`)
+- [x] Tests de creación, respuesta, validación y notificaciones
+
+### Fuera de alcance en Fase 5
+
+- Estandarización global de errores → Fase 6
+- Swagger / docs finales → Fase 7
+
+---
+
 ## Fases futuras (referencia)
-
-### Fase 5 — API de mensajes
-
-Crear conversación (con primer mensaje), responder conversación y mensajes no leídos. Transacciones y validaciones.
 
 ### Fase 6 — Manejo de errores
 
@@ -329,19 +345,20 @@ README final, Swagger, Postman, arquitectura y decisiones técnicas.
 | `GET` | `/api/auth/me` | Usuario autenticado | 2 ✅ |
 | `GET` | `/api/threads` | Listar conversaciones | 4 ✅ |
 | `GET` | `/api/threads/{id}` | Detalle de hilo | 4 ✅ |
-| `POST` | `/api/threads` | Crear conversación + primer mensaje | 5 |
-| `POST` | `/api/threads/{id}/messages` | Responder conversación | 5 |
-| `GET` | `/api/notifications/unread` | Mensajes no leídos | 5 |
+| `POST` | `/api/threads` | Crear conversación + primer mensaje | 5 ✅ |
+| `POST` | `/api/threads/{id}/messages` | Responder conversación | 5 ✅ |
+| `GET` | `/api/notifications/unread` | Mensajes no leídos | 5 ✅ |
 
 ---
 
 ## Criterios de aceptación
 
-### Fase 4 ✅ cuando:
+### Fase 5 ✅ cuando:
 
-1. `GET /api/threads` requiere JWT y retorna listado paginado
-2. Soporta `?search=` y `?status=`
-3. `GET /api/threads/{id}` retorna hilo con creador y mensajes
-4. Sin token → `401`
-5. Hilo inexistente → `404`
-6. Tests de la fase pasan
+1. `POST /api/threads` crea hilo + primer mensaje en una transacción
+2. `POST /api/threads/{id}/messages` agrega respuesta y actualiza `last_message_at`
+3. No se puede responder un hilo cerrado → `422`
+4. `GET /api/notifications/unread` lista mensajes no leídos de otros en hilos relacionados
+5. Validaciones de `subject`/`body` → `422`
+6. Sin token → `401`
+7. Tests de la fase pasan

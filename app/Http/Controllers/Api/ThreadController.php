@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\CreateThreadAction;
 use App\Enums\ThreadStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Thread\IndexThreadRequest;
+use App\Http\Requests\Api\Thread\StoreThreadRequest;
 use App\Http\Resources\Api\ThreadResource;
 use App\Models\Thread;
 use App\Traits\ApiResponse;
@@ -40,6 +42,17 @@ class ThreadController extends Controller
                 'total' => $threads->total(),
             ],
         ], 'Conversaciones obtenidas correctamente.');
+    }
+
+    public function store(StoreThreadRequest $request, CreateThreadAction $createThread): JsonResponse
+    {
+        $thread = $createThread->handle($request->user('api'), $request->validated());
+
+        return $this->successResponse(
+            new ThreadResource($thread),
+            'Conversación creada exitosamente.',
+            201
+        );
     }
 
     public function show(Thread $thread): JsonResponse

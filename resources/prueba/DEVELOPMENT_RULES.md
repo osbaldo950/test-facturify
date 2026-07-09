@@ -28,25 +28,25 @@
 
 ---
 
-## Fase actual: 5 — API de mensajes
+## Fase actual: 6 — Manejo de errores
 
-> Fases 1–4 completadas. Auth JWT en Fase 2. Pruebas por fase.
+> Fases 1–5 completadas. Auth JWT en Fase 2. Pruebas por fase.
 
-### Fase 4 completada — resumen
-
-```
-[x] GET /api/threads (paginado)
-[x] Búsqueda (?search=) y filtro (?status=)
-[x] GET /api/threads/{thread} con mensajes
-[x] auth:api en rutas de threads
-[x] ThreadResource / MessageResource
-[x] Tests de listado y detalle
-```
-
-### Commit de la Fase 4
+### Fase 5 completada — resumen
 
 ```
-feat: implement thread endpoints
+[x] POST /api/threads (crear + primer mensaje)
+[x] POST /api/threads/{thread}/messages (responder)
+[x] GET /api/notifications/unread
+[x] CreateThreadAction / ReplyToThreadAction con transacciones
+[x] StoreThreadRequest / StoreMessageRequest
+[x] Tests de mensajería y notificaciones
+```
+
+### Commit de la Fase 5
+
+```
+feat: implement messaging endpoints
 ```
 
 ### Commits previos
@@ -56,6 +56,7 @@ feat: implement thread endpoints
 | 2 | `feat: configure authentication with JWT` |
 | 3 | `feat: create database structure` |
 | 4 | `feat: implement thread endpoints` |
+| 5 | `feat: implement messaging endpoints` |
 
 ---
 
