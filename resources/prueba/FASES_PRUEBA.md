@@ -244,8 +244,8 @@ El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable 
 | Fase | Nombre | Estado | Commit sugerido |
 |---|---|---|---|
 | 1 | Inicio del proyecto y requerimientos | ✅ Completada | — |
-| 2 | Configuración inicial del proyecto | 🔵 **Actual** | `feat: configure authentication with JWT` |
-| 3 | Diseño de la base de datos | ⏳ Pendiente | `feat: create database structure` |
+| 2 | Configuración inicial del proyecto | ✅ Completada | `feat: configure authentication with JWT` |
+| 3 | Diseño de la base de datos | 🔵 **Siguiente** | `feat: create database structure` |
 | 4 | API de autenticación | ⏳ Pendiente | `feat: implement authentication endpoints` |
 | 5 | API de conversaciones | ⏳ Pendiente | `feat: implement thread endpoints` |
 | 6 | API de mensajes | ⏳ Pendiente | `feat: implement messaging endpoints` |
@@ -255,18 +255,18 @@ El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable 
 
 ---
 
-## Fase 2 — Configuración inicial (alcance actual)
+## Fase 2 — Configuración inicial ✅
 
 > **Objetivo:** dejar la base del proyecto lista para desarrollar la API. Al finalizar se debe poder **iniciar sesión mediante la API**.
 
 ### Tareas de esta fase
 
-- [ ] Configurar base de datos (MySQL)
-- [ ] Instalar y configurar JWT
-- [ ] Configurar autenticación API (guard `api` con driver JWT)
-- [ ] Configurar CORS para consumo desde clientes externos
-- [ ] Definir variables de entorno necesarias
-- [ ] Organizar estructura inicial de carpetas para la API
+- [x] Configurar base de datos (MySQL)
+- [x] Instalar y configurar JWT
+- [x] Configurar autenticación API (guard `api` con driver JWT)
+- [x] Configurar CORS para consumo desde clientes externos
+- [x] Definir variables de entorno necesarias
+- [x] Organizar estructura inicial de carpetas para la API
 
 ### Entregables esperados
 

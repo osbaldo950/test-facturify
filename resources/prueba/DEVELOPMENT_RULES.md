@@ -28,28 +28,26 @@
 
 ---
 
-## Fase actual: 2 — Configuración inicial
+## Fase actual: 3 — Diseño de la base de datos
 
-### Objetivo
+> La Fase 2 está completada. Ver detalle en [`FASES_PRUEBA.md`](./FASES_PRUEBA.md#fase-2--configuración-inicial-).
 
-Dejar el proyecto listo para desarrollar la API. Al terminar esta fase debe ser posible **iniciar sesión mediante la API**.
-
-### Checklist de la fase
+### Fase 2 completada — resumen
 
 ```
-[ ] Base de datos MySQL configurada y conectada
-[ ] Paquete JWT instalado y publicado
-[ ] JWT_SECRET generado en .env
-[ ] Guard 'api' configurado con driver JWT
-[ ] Modelo User implementa JWTSubject
-[ ] CORS configurado para rutas /api/*
-[ ] Variables de entorno documentadas en .env.example
-[ ] Estructura de carpetas API creada
-[ ] Rutas API registradas en routes/api.php
-[ ] Login API funcional (token JWT retornado)
+[x] Base de datos MySQL configurada y conectada
+[x] Paquete JWT instalado y publicado
+[x] JWT_SECRET generado en .env
+[x] Guard 'api' configurado con driver JWT
+[x] Modelo User implementa JWTSubject
+[x] CORS configurado para rutas /api/*
+[x] Variables de entorno documentadas en .env.example
+[x] Estructura de carpetas API creada
+[x] Rutas API registradas en routes/api.php
+[x] Login API funcional (token JWT retornado)
 ```
 
-### Commit al finalizar
+### Commit de la Fase 2
 
 ```
 feat: configure authentication with JWT
