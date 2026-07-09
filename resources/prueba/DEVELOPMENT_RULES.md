@@ -28,9 +28,27 @@
 
 ---
 
-## Fase actual: 3 — Diseño de la base de datos
+## Fase actual: 4 — API de autenticación
 
-> La Fase 2 está completada. Ver detalle en [`FASES_PRUEBA.md`](./FASES_PRUEBA.md#fase-2--configuración-inicial-).
+> La Fase 3 está completada. Ver detalle en [`FASES_PRUEBA.md`](./FASES_PRUEBA.md).
+
+### Fase 3 completada — resumen
+
+```
+[x] Migraciones threads y messages
+[x] Enum ThreadStatus
+[x] Modelos Thread y Message con relaciones
+[x] Relaciones User → threads / messages
+[x] Factories (ThreadFactory, MessageFactory)
+[x] ThreadSeeder + DatabaseSeeder
+[x] Tests de estructura de datos
+```
+
+### Commit de la Fase 3
+
+```
+feat: create database structure
+```
 
 ### Fase 2 completada — resumen
 
@@ -73,7 +91,6 @@ DB_PASSWORD=
 - Usar MySQL, no SQLite, para alinear con producción.
 - Documentar todas las variables en `.env.example` sin valores sensibles.
 - Ejecutar `php artisan migrate` para verificar conexión.
-- No crear migraciones de `threads`/`messages` en esta fase (Fase 3).
 
 ---
 

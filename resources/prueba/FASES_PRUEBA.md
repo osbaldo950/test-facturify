@@ -245,8 +245,8 @@ El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable 
 |---|---|---|---|
 | 1 | Inicio del proyecto y requerimientos | ✅ Completada | — |
 | 2 | Configuración inicial del proyecto | ✅ Completada | `feat: configure authentication with JWT` |
-| 3 | Diseño de la base de datos | 🔵 **Siguiente** | `feat: create database structure` |
-| 4 | API de autenticación | ⏳ Pendiente | `feat: implement authentication endpoints` |
+| 3 | Diseño de la base de datos | ✅ Completada | `feat: create database structure` |
+| 4 | API de autenticación | 🔵 **Siguiente** | `feat: implement authentication endpoints` |
 | 5 | API de conversaciones | ⏳ Pendiente | `feat: implement thread endpoints` |
 | 6 | API de mensajes | ⏳ Pendiente | `feat: implement messaging endpoints` |
 | 7 | Manejo de errores | ⏳ Pendiente | `refactor: standardize api responses` |
@@ -290,9 +290,20 @@ El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable 
 
 ## Fases futuras (referencia)
 
-### Fase 3 — Diseño de la base de datos
+### Fase 3 — Diseño de la base de datos ✅
 
 Solo modelo de datos: migraciones, modelos, relaciones Eloquent, factories y seeders. **Sin controladores.**
+
+#### Tareas completadas
+
+- [x] Migración `threads` (subject, created_by, status, last_message_at)
+- [x] Migración `messages` (thread_id, user_id, body, is_read, read_at)
+- [x] Enum `ThreadStatus` (open, closed, pending)
+- [x] Modelos `Thread` y `Message` con relaciones Eloquent
+- [x] Relaciones en `User` (`threads`, `messages`)
+- [x] Factories con estados (`open`, `closed`, `unread`, `withMessages`, etc.)
+- [x] `ThreadSeeder` + actualización de `DatabaseSeeder`
+- [x] Tests de estructura de datos
 
 ### Fase 4 — API de autenticación
 
