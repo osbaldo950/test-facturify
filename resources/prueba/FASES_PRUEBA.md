@@ -251,7 +251,7 @@ El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable 
 | 4 | API de conversaciones | ✅ Completada | `feat: implement thread endpoints` |
 | 5 | API de mensajes | ✅ Completada | `feat: implement messaging endpoints` |
 | 6 | Manejo de errores | ✅ Completada | `refactor: standardize api responses` |
-| 7 | Documentación | 🔵 **Siguiente** | `docs: complete project documentation` |
+| 7 | Documentación | ✅ Completada | `docs: complete project documentation` |
 
 ---
 
@@ -344,15 +344,22 @@ Solo modelo de datos: migraciones, modelos, relaciones Eloquent, factories y see
 
 ---
 
-## Fases futuras (referencia)
+## Fase 7 — Documentación ✅
 
-### Fase 7 — Documentación
+> **Objetivo:** documentar instalación, arquitectura, decisiones, endpoints, Swagger y Postman.
 
-README final, Swagger, Postman, arquitectura y decisiones técnicas.
+### Tareas completadas
+
+- [x] `README.md` — instalación, env, endpoints, pruebas
+- [x] `docs/ARCHITECTURE.md` — arquitectura
+- [x] `docs/TECHNICAL_DECISIONS.md` — decisiones técnicas y uso de IA
+- [x] `docs/openapi.yaml` — OpenAPI 3 / Swagger
+- [x] `docs/postman/Facturify_Inbox_API.postman_collection.json`
+- [x] `docs/README.md` — guía para abrir Swagger y Postman
 
 ---
 
-## Endpoints previstos (referencia completa)
+## Endpoints (referencia completa)
 
 | Método | Ruta | Descripción | Fase |
 |---|---|---|---|
@@ -368,11 +375,14 @@ README final, Swagger, Postman, arquitectura y decisiones técnicas.
 
 ## Criterios de aceptación
 
-### Fase 6 ✅ cuando:
+### Fase 7 ✅ cuando:
 
-1. Errores API responden con `{ success: false, message, errors? }`
-2. Éxitos responden con `{ success: true, message, data }`
-3. `401` / `404` / `422` usan mensajes consistentes
-4. Excepciones de dominio se renderizan con el mismo contrato
-5. Tests de formato de error pasan
-6. Tests previos de la API siguen pasando
+1. Existe README con instalación, env, seeders y pruebas
+2. Existe documentación de arquitectura y decisiones técnicas
+3. Existe OpenAPI (`docs/openapi.yaml`) con todos los endpoints
+4. Existe colección Postman importable
+5. Se documenta el uso de IA en el proyecto
+
+---
+
+**Estado del proyecto:** todas las fases (1–7) están completadas.

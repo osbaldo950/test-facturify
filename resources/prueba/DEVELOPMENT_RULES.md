@@ -28,27 +28,28 @@
 
 ---
 
-## Fase actual: 7 — Documentación
+## Proyecto completado (fases 1–7)
 
-> Fases 1–6 completadas. Auth JWT en Fase 2. Pruebas por fase.
+> Toda la prueba técnica está implementada y documentada.
 
-### Fase 6 completada — resumen
-
-```
-[x] ApiResponse (contrato único éxito/error)
-[x] ApiExceptionRenderer en bootstrap/app.php
-[x] Formato uniforme 401/403/404/422/500
-[x] CannotReplyToClosedThreadException
-[x] Tests de formato de respuestas de error
-```
-
-### Commit de la Fase 6
+### Fase 7 completada — resumen
 
 ```
-refactor: standardize api responses
+[x] README.md (instalación, endpoints, pruebas)
+[x] docs/ARCHITECTURE.md
+[x] docs/TECHNICAL_DECISIONS.md (incluye uso de IA)
+[x] docs/openapi.yaml (Swagger / OpenAPI 3)
+[x] Colección Postman
+[x] docs/README.md
 ```
 
-### Commits previos
+### Commit de la Fase 7
+
+```
+docs: complete project documentation
+```
+
+### Commits del proyecto
 
 | Fase | Commit |
 |---|---|
@@ -57,6 +58,7 @@ refactor: standardize api responses
 | 4 | `feat: implement thread endpoints` |
 | 5 | `feat: implement messaging endpoints` |
 | 6 | `refactor: standardize api responses` |
+| 7 | `docs: complete project documentation` |
 
 ---
 
