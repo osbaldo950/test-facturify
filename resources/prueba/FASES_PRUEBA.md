@@ -250,8 +250,8 @@ El desarrollo es **incremental**. Cada fase debe quedar funcional y commiteable 
 | 3 | Diseño de la base de datos | ✅ Completada | `feat: create database structure` |
 | 4 | API de conversaciones | ✅ Completada | `feat: implement thread endpoints` |
 | 5 | API de mensajes | ✅ Completada | `feat: implement messaging endpoints` |
-| 6 | Manejo de errores | 🔵 **Siguiente** | `refactor: standardize api responses` |
-| 7 | Documentación | ⏳ Pendiente | `docs: complete project documentation` |
+| 6 | Manejo de errores | ✅ Completada | `refactor: standardize api responses` |
+| 7 | Documentación | 🔵 **Siguiente** | `docs: complete project documentation` |
 
 ---
 
@@ -325,11 +325,26 @@ Solo modelo de datos: migraciones, modelos, relaciones Eloquent, factories y see
 
 ---
 
+## Fase 6 — Manejo de errores ✅
+
+> **Objetivo:** estandarizar respuestas, excepciones, HTTP status y mensajes en toda la API.
+
+### Tareas completadas
+
+- [x] `App\Http\Responses\ApiResponse` — contrato único de éxito/error
+- [x] `ApiExceptionRenderer` — renderizado centralizado para rutas `api/*`
+- [x] Formato uniforme para `401`, `403`, `404`, `422`, `500`
+- [x] Validaciones con `success: false` + `errors`
+- [x] Excepción de dominio `CannotReplyToClosedThreadException`
+- [x] Tests de formato de respuestas de error
+
+### Fuera de alcance en Fase 6
+
+- Swagger / Postman / README final → Fase 7
+
+---
+
 ## Fases futuras (referencia)
-
-### Fase 6 — Manejo de errores
-
-Estandarizar respuestas, excepciones, HTTP status, mensajes y API Resources.
 
 ### Fase 7 — Documentación
 
@@ -353,12 +368,11 @@ README final, Swagger, Postman, arquitectura y decisiones técnicas.
 
 ## Criterios de aceptación
 
-### Fase 5 ✅ cuando:
+### Fase 6 ✅ cuando:
 
-1. `POST /api/threads` crea hilo + primer mensaje en una transacción
-2. `POST /api/threads/{id}/messages` agrega respuesta y actualiza `last_message_at`
-3. No se puede responder un hilo cerrado → `422`
-4. `GET /api/notifications/unread` lista mensajes no leídos de otros en hilos relacionados
-5. Validaciones de `subject`/`body` → `422`
-6. Sin token → `401`
-7. Tests de la fase pasan
+1. Errores API responden con `{ success: false, message, errors? }`
+2. Éxitos responden con `{ success: true, message, data }`
+3. `401` / `404` / `422` usan mensajes consistentes
+4. Excepciones de dominio se renderizan con el mismo contrato
+5. Tests de formato de error pasan
+6. Tests previos de la API siguen pasando

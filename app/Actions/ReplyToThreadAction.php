@@ -3,11 +3,11 @@
 namespace App\Actions;
 
 use App\Enums\ThreadStatus;
+use App\Exceptions\Api\CannotReplyToClosedThreadException;
 use App\Models\Message;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ReplyToThreadAction
 {
@@ -17,7 +17,7 @@ class ReplyToThreadAction
     public function handle(Thread $thread, User $user, array $data): Message
     {
         if ($thread->status === ThreadStatus::Closed) {
-            throw new HttpException(422, 'No se puede responder una conversación cerrada.');
+            throw new CannotReplyToClosedThreadException;
         }
 
         return DB::transaction(function () use ($thread, $user, $data): Message {

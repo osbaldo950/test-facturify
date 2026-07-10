@@ -28,25 +28,24 @@
 
 ---
 
-## Fase actual: 6 — Manejo de errores
+## Fase actual: 7 — Documentación
 
-> Fases 1–5 completadas. Auth JWT en Fase 2. Pruebas por fase.
+> Fases 1–6 completadas. Auth JWT en Fase 2. Pruebas por fase.
 
-### Fase 5 completada — resumen
-
-```
-[x] POST /api/threads (crear + primer mensaje)
-[x] POST /api/threads/{thread}/messages (responder)
-[x] GET /api/notifications/unread
-[x] CreateThreadAction / ReplyToThreadAction con transacciones
-[x] StoreThreadRequest / StoreMessageRequest
-[x] Tests de mensajería y notificaciones
-```
-
-### Commit de la Fase 5
+### Fase 6 completada — resumen
 
 ```
-feat: implement messaging endpoints
+[x] ApiResponse (contrato único éxito/error)
+[x] ApiExceptionRenderer en bootstrap/app.php
+[x] Formato uniforme 401/403/404/422/500
+[x] CannotReplyToClosedThreadException
+[x] Tests de formato de respuestas de error
+```
+
+### Commit de la Fase 6
+
+```
+refactor: standardize api responses
 ```
 
 ### Commits previos
@@ -57,6 +56,7 @@ feat: implement messaging endpoints
 | 3 | `feat: create database structure` |
 | 4 | `feat: implement thread endpoints` |
 | 5 | `feat: implement messaging endpoints` |
+| 6 | `refactor: standardize api responses` |
 
 ---
 
